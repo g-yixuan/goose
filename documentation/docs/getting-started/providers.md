@@ -60,6 +60,7 @@ goose is compatible with a wide range of LLM providers, allowing you to choose a
 | [SayGM](https://saygm.com/)                                                 | TEE-backed private inference via an OpenAI-compatible API with dynamic model routing. Prices are determined at runtime per request.                                                                           | `SAYGM_API_KEY`                                                                                                   |
 | [SaladCloud AI Gateway](https://salad.com/)                                 | OpenAI-compatible access to SaladCloud-hosted open-source models, including Qwen, Gemma, and others.                                                                                                          | `SALAD_CLOUD_API_KEY`                                                                                                                                                              |
 | [Scaleway](https://www.scaleway.com/en/generative-apis/)                    | European cloud offering OpenAI-compatible access to models like Mistral, Qwen, and open-source weights. Ensures data residency and GDPR compliance.                                                                                                                                                                                                                                                                | `SCW_SECRET_KEY`      |
+| [SiliconFlow](https://siliconflow.com/)                                    | OpenAI-compatible gateway hosting open-weight and Chinese frontier models (DeepSeek, Qwen, GLM, Kimi), including multimodal Qwen3-VL models. Serves a mainland-China endpoint at `https://api.siliconflow.cn/v1`. | `SILICONFLOW_API_KEY`, `SILICONFLOW_BASE_URL` (optional)                                                                                                                            |
 | [Snowflake](https://docs.snowflake.com/user-guide/snowflake-cortex/aisql#choosing-a-model) | Access the latest models using Snowflake Cortex services, including Claude models. **Requires a Snowflake account and programmatic access token (PAT)**.                                                     | `SNOWFLAKE_HOST`, `SNOWFLAKE_TOKEN`                                                                                                                                                                 |
 | [VMware Tanzu Platform](https://techdocs.broadcom.com/us/en/vmware-tanzu/platform/ai-services/10-3/ai/index.html) | Enterprise-managed LLM access through AI Services on VMware Tanzu Platform. Models are fetched dynamically from the endpoint. | `TANZU_AI_API_KEY`, `TANZU_AI_ENDPOINT` |
 | [Tetrate Agent Router Service](https://router.tetrate.ai)                   | Unified API gateway for AI models including Claude, Gemini, GPT, open-weight models, and others. Supports PKCE authentication flow for secure API key generation.                                                                                | `TETRATE_API_KEY`, `TETRATE_HOST` (optional)                                                                                                                                        |
@@ -957,6 +958,47 @@ To set up SayGM with goose, follow these steps:
     3. Follow the prompts to choose `SayGM` as the provider.
     4. Enter your API key when prompted.
     5. Select the SayGM model of your choice.
+  </TabItem>
+</Tabs>
+
+### SiliconFlow
+[SiliconFlow](https://siliconflow.com/) is an OpenAI-compatible gateway hosting open-weight and Chinese frontier models. To use SiliconFlow with goose, you need an API key from [SiliconFlow](https://cloud.siliconflow.com/account/ak).
+
+SiliconFlow serves two endpoints: the international `https://api.siliconflow.com/v1` (default) and the mainland-China `https://api.siliconflow.cn/v1`. Set `SILICONFLOW_BASE_URL` to switch between them. The two sites are independent with separate accounts, so a key created on one will not work on the other — use a key from [cloud.siliconflow.com](https://cloud.siliconflow.com/account/ak) or [cloud.siliconflow.cn](https://cloud.siliconflow.cn/account/ak) matching the endpoint you pick.
+
+`/v1/models` is queried at configure time, so the full catalogue is available in the model picker. Models worth noting include:
+- **deepseek-ai/DeepSeek-V4-Pro** - DeepSeek's flagship reasoning model with 1M context
+- **Qwen/Qwen3.5-397B-A17B** - Qwen3.5 397B MoE with 262K context
+- **Qwen/Qwen3-VL-32B-Instruct** - multimodal Qwen3-VL with 262K context
+- **zai-org/GLM-5.2** - Zhipu's GLM-5.2 with 1M context
+- **tencent/Hunyuan-A13B-Instruct** - Tencent's 13B-active-parameter MoE reasoning model
+
+For the complete list of supported SiliconFlow models, see the [SiliconFlow model catalogue](https://cloud.siliconflow.com/models).
+
+To set up SiliconFlow with goose, follow these steps:
+
+<Tabs groupId="interface">
+  <TabItem value="ui" label="goose Desktop" default>
+  **To update your LLM provider and API key:**
+
+    1. Click the <PanelLeft className="inline" size={16} /> button in the top-left to open the sidebar.
+    2. Click the `Settings` button on the sidebar.
+    3. Click the `Models` tab.
+    4. Click `Configure Providers`
+    5. Choose `SiliconFlow` as provider from the list.
+    6. Click `Configure`, enter your API key, and click `Submit`.
+    7. Select the SiliconFlow model of your choice.
+
+  </TabItem>
+  <TabItem value="cli" label="goose CLI">
+    1. Run:
+    ```sh
+    goose configure
+    ```
+    2. Select `Configure Providers` from the menu.
+    3. Follow the prompts to choose `SiliconFlow` as the provider.
+    4. Enter your API key when prompted.
+    5. Select the SiliconFlow model of your choice.
   </TabItem>
 </Tabs>
 
